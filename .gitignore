@@ -1,2 +1,5 @@
+virtual/
 .env 
 app/migrations
+project/__pycache__/
+app/__pycache__/
