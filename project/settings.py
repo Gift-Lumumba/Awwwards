@@ -54,7 +54,12 @@ INSTALLED_APPS = [
     'tinymce',
     'rest_framework',
     'rest_framework.authtoken',
+     'star_ratings',
 ]
+STAR_RATINGS_RERATE = False
+STAR_RATINGS_RANGE = 5
+STAR_RATINGS_ANONYMOUS = True
+
 LOGIN_REDIRECT_URL = 'index'
 
 MIDDLEWARE = [
@@ -83,6 +88,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                # 'django.core.context_processors.request',
             ],
         },
     },
