@@ -4,7 +4,7 @@
 
   <div class="row">
     {% if projects%}
-      <h2>Found {{ projects|length }} of searched title {{message}}</h2>
+      <h2>Found {{ projects|length }} of searched title <b>{{message}}</b></h2>
     {% else %}
       <h2> Found 0 projects for the searched title {{message}}</h2>
     {% endif %}
@@ -12,14 +12,46 @@
   </div>
 
   <div class="row">
-
-  {% if projects %}
-    {% for project in projects %}
-      <div class="col-sm-6 col-md-3">
-          <h1>{{project.title}}</h1>
+    
+      {% if projects %}
+      {% for project in projects %}
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4><b>{{project.title}}</b></h4>
+        <img src="{{project.image.url}}" data-toggle="modal" data-target="#exampleModalCenter{{project.id}}" class="img-responsive imagee" style="height: 400px;width: 100%;position: center;size: cover;" alt="">
+        <!-- Modal -->
+        <div class="modal fade modal" id="exampleModalCenter{{project.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+            <div class="modal-content" style="font-family: 'Lora', serif;background: rgb(29, 29, 29);color:#d6d3cd;">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle" style="font-size:40px;"><b>{{project.title}}</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img src="{{project.image.url}}"  class = "img-responsive" alt="" style="height:500px;width: 100%;">
+              </div>
+              <div class="modal-body">
+                <br>
+                <br>
+                <p style="font-size:22px;padding-right: 70px;">{{project.description}}</p>
+                <form action="">
+                    <a href="{{project.link}}" style="width:100%;height:40px;font-size: 20px;">{{project.link}}</a>
+                    <br>
+                  </form>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-dismiss="modal">Close&nbsp;<i class="fas fa-times"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
       </div>
-    {% endfor %}
-  {% endif %}
-  </div>
+      {% endfor %}
+      {% endif %}
+    </div>
 </div>
 {% endblock %}
