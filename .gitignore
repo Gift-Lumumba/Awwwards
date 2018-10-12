@@ -1,5 +1,6 @@
-virtual/
+.vscode/
 .env 
+virtual/
 app/migrations
 project/__pycache__/
 app/__pycache__/
