@@ -44,17 +44,17 @@ class Profile(models.Model):
     return profile
 
 
-
 class Project(models.Model):
   '''
   class that contains Project properties
   '''
   title = models.CharField(max_length=40,null=True, blank=True)
   image = models.ImageField(upload_to='images/', null=True,blank=True)
-  description = HTMLField()
-  link = models.URLField(max_length=200)
-  user = models.ForeignKey(User,on_delete=models.CASCADE,default="")
-  profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="")
+  posted_on = models.DateTimeField(auto_now_add=True)
+  description = models.TextField()
+  link = models.URLField(max_length=70)
+  user = models.ForeignKey(User,on_delete=models.CASCADE,default="",blank=True)
+  profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="",blank=True)
 
   def save_project(self):
     self.save()
@@ -64,11 +64,26 @@ class Project(models.Model):
 
   def delete_project(self):
     self.delete()
+    
+  class Meta:
+    ordering = ['posted_on']
 
   @classmethod
   def search_project(cls,title):
-    project =  cls.objects.filter(title_icontains=title)
+    project =  cls.objects.filter(title__icontains=title)
     return project
+
+  @classmethod
+  def get_posted_projects(cls):
+    projects = Project.objects.all()
+    return projects
+
+  @classmethod
+  def get_project_by_id(cls, id):
+          project = Project.objects.filter(user_id=id).all()
+          return project
+
+
 
   def __str__(self):
     return self.title
