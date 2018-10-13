@@ -39,9 +39,25 @@ class Profile(models.Model):
     self.delete()
 
   @classmethod
-  def get_profile_by_id(cls,id):
-    profile = Profile.objects.get(id=id)
-    return profile
+  def get_profile(cls):
+      profile = Profile.objects.all()
+      return profile
+
+  @classmethod
+  def get_profile_by_id(cls, id):
+      user_profile = Profile.objects.get(user=id)
+      return user_profile
+
+  @classmethod
+  def get_profile_by_username(cls, user):
+      profile_info = cls.objects.filter(user__contains=user)
+      return profile_info
+
+  @classmethod
+  def filter_by_id(cls, id):
+      profile = Profile.objects.filter(user = id).first()
+      return profile
+
 
 
 class Project(models.Model):
@@ -53,8 +69,8 @@ class Project(models.Model):
   posted_on = models.DateTimeField(auto_now_add=True)
   description = models.TextField()
   link = models.URLField(max_length=70)
-  user = models.ForeignKey(User,on_delete=models.CASCADE,default="",blank=True)
-  profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="",blank=True)
+  user = models.ForeignKey(User,on_delete=models.CASCADE,default="",blank=True,null=True)
+  profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="",blank=True,null=True)
 
   def save_project(self):
     self.save()
@@ -77,6 +93,11 @@ class Project(models.Model):
   def get_posted_projects(cls):
     projects = Project.objects.all()
     return projects
+
+  @classmethod
+  def get_projects_on_profile(cls,profile):
+      projects = Project.objects.filter(profile__pk = profile)
+      return projects
 
   @classmethod
   def get_project_by_id(cls, id):
