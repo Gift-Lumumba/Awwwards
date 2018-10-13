@@ -5,6 +5,7 @@
 {{block.super}}
 
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 {% endblock %}
 
 {% block content %} 
@@ -12,21 +13,23 @@
 <br>
 
 <div class="container">
+  <h4 style="text-align:center;font-size: 20px;font-family: 'Lato', sans-serif;color: black;font-weight: bolder;">The awards of design, creativity and innovation on the internet</h4>
+  <br>
   <div class="row">
     {% for project in projects %}
     <div class="col-xs-12 col-sm-6 col-md-4 projects">
-      <div class="thumbnail" style="width:100% !important;">
+      <div class="thumbnail" style="width:100% !important;border: solid rgb(34, 34, 34);">
         <div class="thumbnail-header">
-          <h4><b>{{project.title}}</b></h4>
+          <h4 style="font-family: 'Lato', sans-serif;text-align: center;font-size: 20px;color: rgb(69, 182, 69);"><b>{{project.title}}</b></h4>
         </div>
-        <img src="{{project.image.url}}"  data-toggle="modal" data-target="#exampleModalCenter{{project.id}}" class = "img-responsive project" alt="" style="height:400px;width: 100% !important;position: center;size: cover;">
+        <img src="{{project.image.url}}"  data-toggle="modal" data-target="#exampleModalCenter{{project.id}}" class = "img-responsive project" alt="" style="height:330px;width: 100% !important;position: center;size: cover;">
         
         
         <!-- Modal -->
         <div class="col-xs-12 col-sm-6 col-md-4">
           <div class="modal fade" style="width:100% !important;" id="exampleModalCenter{{project.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-              <div class="modal-content" style="font-family: 'Lora', serif;background: rgb(29, 29, 29); color:#d6d3cd;">
+              <div class="modal-content" style=" font-family: 'Lato', sans-serif !important;background: rgb(29, 29, 29); color:#d6d3cd;">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalCenterTitle" style="font-size:40px;"><b>{{project.title}}</b></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -39,6 +42,7 @@
                 <div class="modal-body">
                   <br>
                   <br>
+                  <p style="font-size:22px;padding-right: 70px;"><b>Posted by:</b> {{project.user}}</p>
                   <p style="font-size:22px;padding-right: 70px;"><b>Posted On:</b> {{project.posted_on}}</p>
                   <p style="font-size:22px;padding-right: 70px;"><b>Description:</b> {{project.description}}</p>
                   <form action="">
