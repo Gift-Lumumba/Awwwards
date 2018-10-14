@@ -33,7 +33,7 @@
     </div>
     <form class="navbar-form search" role="search" action="{% url 'search_results' %}" style="padding-right:50px !important;">
 
-        <div class="input-group">
+        <div class="input-group" style="width:170px;">
             <input type="text" class="form-control" id="search" placeholder=" &#xF002; search project by title" name="project">
         </div>
 
@@ -86,5 +86,8 @@
     }
     #search{
     font-family:FontAwesome !important;
+}
+::placeholder{
+    font-size: 15px;
 }
 </style>
