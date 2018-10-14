@@ -4,9 +4,11 @@
 
   <div class="row">
     {% if projects%}
-      <h3>Found {{ projects|length }} of searched title <b>{{message}}</b></h3>
+      <h3>Found {{ projects|length }} results of searched title <b>{{message}}</b></h3>
     {% else %}
-      <h3> Found 0 projects for the searched title {{message}}</h3>
+    <br>
+    <br>
+      <h3 style="font-weight:bolder;text-align:center;">Oops!!{{message}}</h3>
     {% endif %}
 
   </div>
