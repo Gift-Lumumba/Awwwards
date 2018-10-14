@@ -6,6 +6,13 @@
 
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
 {% endblock %}
 
 {% block content %} 
@@ -49,7 +56,60 @@
                     <b style="font-size:22px;" >Link:</b>&nbsp;<a href="{{project.link}}" style="width:100%;height:40px;font-size: 20px;">{{project.link}}</a>
                     <br>
                   </form>
-                  
+                  <br>
+                  <br>
+                  <br>
+                  <div class="form-group">
+                      <select id="criteria-select" class="form-control custom-select">
+                          <option value="0" style="font-size: 13px;" disabled selected>Select Criteria</option>
+                          <option value="design" style="font-size: 13px;">Design</option>
+                          <option value="usability" style="font-size: 13px;">Usability</option>
+                          <option value="content" style="font-size: 13px;">Content</option>
+                        </select>
+                  </div>
+                  <div class="form-group">
+                    <input type="number" style="font-size: 13px;" id="rating-control" class="form-control" step="0.1" max="10" placeholder="Rate 1-10" disabled>
+                  </div>
+                  <table class="table table-striped" style="font-size:14.5px !important;">
+                    <thead>
+                      <tr>
+                        <th>Criteria</th>
+                        <th>Rating</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="design">
+                        <td>Design</td>
+                        <td>
+                          <div class="stars-outer">
+                            <div class="stars-inner"></div>
+                          </div>
+                          <span class="number-rating"></span>
+                        </td>
+
+                      </tr>
+                      <tr class="usability">
+                          <td>Usability</td>
+                          <td>
+                            <div class="stars-outer">
+                              <div class="stars-inner"></div>
+                            </div>
+                            <span class="number-rating"></span>
+                          </td>
+  
+                        </tr>
+                        <tr class="content">
+                            <td>Content</td>
+                            <td>
+                              <div class="stars-outer">
+                                <div class="stars-inner"></div>
+                              </div>
+                              <span class="number-rating"></span>
+                            </td>
+    
+                          </tr>
+                    </tbody>
+                  </table>
                   
                 </div>
                 <div class="modal-footer">
@@ -66,6 +126,35 @@
   </div>
 </div>
   
-  
-
+      <style>
+          .stars-outer{
+          position: relative;
+          display: inline-block;
+        }
+        .stars-inner{
+          position: absolute;
+          top: 0;
+          left: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          width: 0;
+        }
+        
+        .stars-outer::before {
+          content: "\f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+          color: #ccc;
+        }
+        
+        .stars-inner::before {
+          content: "\f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+          color: #f8ce0b !important;
+        }
+        </style>
+{% endblock %}
+{% block scripts %} {{block.super}}
+  <script type="text/javascript" src="{%static 'js/ratings.js'%}"></script>
 {% endblock %}
