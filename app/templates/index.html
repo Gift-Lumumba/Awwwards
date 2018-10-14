@@ -1,4 +1,6 @@
 {% extends 'base.html'%}
+{% load bootstrap3 %}
+{% load bootstrap4 %}
 {% load static %}
 
 {% block styles %}
@@ -7,14 +9,11 @@
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 
 
 {% endblock %}
-
 {% block content %} 
 <br>
 <br>
@@ -35,7 +34,7 @@
         <!-- Modal -->
         <div class="col-xs-12 col-sm-6 col-md-4">
           <div class="modal fade" style="width:100% !important;" id="exampleModalCenter{{project.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
               <div class="modal-content" style=" font-family: 'Lato', sans-serif !important;background: rgb(29, 29, 29); color:#d6d3cd;">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalCenterTitle" style="font-size:40px;"><b>{{project.title}}</b></h5>
