@@ -12,6 +12,7 @@ class Profile(models.Model):
   '''
   profile_pic = models.ImageField(upload_to='images/',null=True, blank=True)
   bio = HTMLField()
+  contact = models.IntegerField(default=0)
   user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
 
   def __str__(self):
