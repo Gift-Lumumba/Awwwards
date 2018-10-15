@@ -18,7 +18,7 @@
             {% if form.errors %}
               <p> Password or Username is incorrect </p>
             {% endif %}
-            <div class="well" style="width:400px;border: solid green;margin-left: 50px !important;">
+            <div class="well" style="width:400px;border: solid green;margin-left: 15px !important;">
                 <div class="panel-header">
                     <h2 style="text-align:center;font-size: 40px;">Sign up</h2>
                 </div>
@@ -55,42 +55,7 @@
         </div>
       </div>
 
-    <!-- <div class="container">
-      <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="well" style="width:400px;border: solid green;margin-left: 50px !important;">
-                  <div class="panel-header">
-                      <h2 style="text-align:center;font-size: 40px;">Sign up</h2>
-                  </div>
-                  <hr>
-                    <form method="post" style="text-align:center;font-size: 17px;">
-                  {% csrf_token %}
-                    {% for field in form %}
-                    <p>
-                      {{ field.label_tag }}<br>
-            
-                      {{ field }}
-                      
-                      {% if field.help_text %}
-                        <small style="display: none">{{ field.help_text }}</small>
-                      {% endif %}
-                      {% for error in field.errors %}
-                        <p style="color: red">{{ error }}</p>
-                      {% endfor %}
-                    </p>
-                    {% endfor %}
-                  <button type="submit" class="btn-lg btn btn-success" style="width:60%;">Sign up</button>
-                  <br>
-                  <br>
-                  <center>
-                      <p class="have">Have an account? <a href="/accounts/login">Log in</a> </p>
-                    </center>
-                </form>
-                <br>
-                </div>
-          </div>
-      </div>
-    </div> -->
+    
 
 </body>
 <style>
