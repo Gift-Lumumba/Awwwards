@@ -23,7 +23,7 @@
                     <h2 style="text-align:center;font-size: 40px;">Sign up</h2>
                 </div>
                 <hr>
-                  <form method="post" style="text-align:center;font-size: 17px;">
+                  <form action="/accounts/register/" method="post" style="text-align:center;font-size: 17px;">
                 {% csrf_token %}
                   {% for field in form %}
                   <p>
