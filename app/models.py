@@ -4,6 +4,7 @@ import datetime as dt
 from tinymce.models import HTMLField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import numpy as np
 
 # Create your models here.
 class Profile(models.Model):
@@ -11,9 +12,9 @@ class Profile(models.Model):
   class that contains user Profile properties
   '''
   profile_pic = models.ImageField(upload_to='images/',null=True, blank=True)
-  bio = HTMLField()
-  contact = models.IntegerField(default=0)
-  user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
+  bio = models.TextField()
+  contact = models.IntegerField(blank=True, null=True,)
+  user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
   def __str__(self):
     return self.bio
@@ -72,6 +73,7 @@ class Project(models.Model):
   link = models.URLField(max_length=70)
   user = models.ForeignKey(User,on_delete=models.CASCADE,default="",blank=True,null=True)
   profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="",blank=True,null=True)
+  rating = models.TextField()
 
   def save_project(self):
     self.save()
@@ -105,8 +107,79 @@ class Project(models.Model):
           project = Project.objects.filter(user_id=id).all()
           return project
 
+  def average_design(self):
+    all_ratings = list(map(lambda x: x.rating, self.designrating_set.all()))
+    return np.mean(all_ratings)
+
+  def average_usability(self):
+        all_ratings = list(map(lambda x: x.rating, self.usabilityrating_set.all()))
+        return np.mean(all_ratings)
+
+  def average_content(self):
+        all_ratings = list(map(lambda x: x.rating, self.contentrating_set.all()))
+        return np.mean(all_ratings)
 
 
   def __str__(self):
     return self.title
+
+class DesignRating(models.Model):
+    RATING_CHOICES = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10')
+    )
+    project = models.ForeignKey(Project)
+    pub_date = models.DateTimeField(auto_now_add=True)
+    profile = models.ForeignKey(Profile)
+    comment = models.CharField(max_length=200)
+    rating = models.IntegerField(choices=RATING_CHOICES, default=0)
+
+
+class UsabilityRating(models.Model):
+    RATING_CHOICES = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10')
+    )
+    project = models.ForeignKey(Project)
+    pub_date = models.DateTimeField(auto_now_add=True)
+    profile = models.ForeignKey(Profile)
+    comment = models.CharField(max_length=200)
+    rating = models.IntegerField(choices=RATING_CHOICES, default=0)
+
+
+class ContentRating(models.Model):
+    RATING_CHOICES = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10')
+    )
+    project = models.ForeignKey(Project)
+    pub_date = models.DateTimeField(auto_now_add=True,)
+    profile = models.ForeignKey(Profile)
+    comment = models.CharField(max_length=200)
+    rating = models.IntegerField(choices=RATING_CHOICES, default=0)
+
 
