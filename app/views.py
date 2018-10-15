@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth import login, authenticate
-from .forms import SignupForm,ProjectForm,UpdateProfileForm
-from .models import Profile,Project
+from .forms import SignupForm,ProjectForm,UpdateProfileForm,DesignForm,UsabilityForm,ContentForm
+from .models import Profile,Project,UsabilityRating,DesignRating,ContentRating
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import ProjectSerializer,ProfileSerializer
@@ -21,45 +21,45 @@ from .email import send_welcome_email
 
 
 # Create your views here.
-def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your Awwwards account.'
-            message = render_to_string('registration/activate_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                        mail_subject, message, to=[to_email]
-            )
-            email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
-    else:
-        form = SignupForm()
-    return render(request, 'registration/signup.html', {'form': form})
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignupForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.is_active = False
+#             user.save()
+#             current_site = get_current_site(request)
+#             mail_subject = 'Activate your Awwwards account.'
+#             message = render_to_string('registration/activate_email.html', {
+#                 'user': user,
+#                 'domain': current_site.domain,
+#                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+#                 'token':account_activation_token.make_token(user),
+#             })
+#             to_email = form.cleaned_data.get('email')
+#             email = EmailMessage(
+#                         mail_subject, message, to=[to_email]
+#             )
+#             email.send()
+#             return HttpResponse('Please confirm your email address to complete the registration')
+#     else:
+#         form = SignupForm()
+#     return render(request, 'registration/signup.html', {'form': form})
 
 
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        login(request, user)
-        return HttpResponse('Thank you for your email confirmation. Now you can <a href="/accounts/login/">Login</a>  to your account.')
-    else:
-        return HttpResponse('Activation link is invalid!')
+# def activate(request, uidb64, token):
+#     try:
+#         uid = force_text(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+#     if user is not None and account_activation_token.check_token(user, token):
+#         user.is_active = True
+#         user.save()
+#         login(request, user)
+#         return HttpResponse('Thank you for your email confirmation. Now you can <a href="/accounts/login/">Login</a>  to your account.')
+#     else:
+#         return HttpResponse('Activation link is invalid!')
 
 
 
@@ -68,6 +68,7 @@ def index(request):
   '''
   view function that renders the homepage
   '''
+  form=DesignForm()
   projects = Project.get_posted_projects().order_by('-posted_on')
   
   return render(request,'index.html',locals())
@@ -75,11 +76,12 @@ def index(request):
 @login_required(login_url='/accounts/login/')
 def search_results(request):
   if 'project' in request.GET and request.GET["project"]:
+    form=DesignForm()
     title = request.GET.get("project")
     searched_projects = Project.search_project(title)
     message = f"{title}"
 
-    return render(request, 'search.html',{"message":message,"projects":searched_projects})
+    return render(request, 'search.html',{"message":message,"projects":searched_projects,"form":form})
 
   else:
     message = "You haven't searched for anything"
@@ -108,9 +110,10 @@ def profile(request, user_id):
     """
     Function that enables one to see their profile
     """
+    form=DesignForm()
     title = "Profile"
     projects = Project.get_project_by_id(id= user_id).order_by('-posted_on')
-    # profiles = User.objects.get(id=user_id)
+    profiles = Profile.objects.get(user_id=user_id)
     users = User.objects.get(id=user_id)
 
     return render(request, 'profile/profile.html',locals())
@@ -118,15 +121,22 @@ def profile(request, user_id):
     
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
-   if request.method == 'POST':
+    '''
+    Function that enables one to update their profile details
+    '''
+    current_user = request.user
+    profile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
         form = UpdateProfileForm(request.POST, request.FILES)
         if form.is_valid():
             profile = form.save(commit=False)
+            profile.user = current_user
             profile.save()
         return redirect('index')
-   else:
+    else:
         form = UpdateProfileForm()
-   return render(request, 'profile/update_profile.html', locals())
+    return render(request, 'profile/update_profile.html', locals())
+
 
 class ProjectList(APIView):
     def get(self, request, format=None):
@@ -210,3 +220,54 @@ class ProfileDescription(APIView):
         profile = self.get_profile(pk)
         profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@login_required(login_url='/login')
+def add_usability(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        form = UsabilityForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.project = project
+            rate.user_name = request.user
+            rate.profile = request.user.profile
+
+            rate.save()
+        return redirect('index')
+
+    return render(request, 'index.html')
+
+@login_required(login_url='/login')
+def add_design(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        form = DesignForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.project = project
+            rate.user_name = request.user
+            rate.profile = request.user.profile
+
+            rate.save()
+        return redirect('index')
+    else:
+        form = DesignForm()
+
+    return render(request, 'index.html',{'form': form})
+
+
+@login_required(login_url='/login')
+def add_content(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        form = ContentForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.project = project
+            rate.user_name = request.user
+            rate.profile = request.user.profile
+
+            rate.save()
+        return redirect('index')
+
+    return render(request, 'index.html')
