@@ -18,9 +18,9 @@ urlpatterns=[
     url(r'^api/profiles/$', views.ProfileList.as_view()),
     url(r'api/profiles/profile-id/(?P<pk>[0-9]+)/$',
     views.ProfileDescription.as_view()),
-    url(r'^post/(?P<project_id>[0-9]+)/review_design/$', views.add_design, name='add_design'),
-    url(r'^post/(?P<project_id>[0-9]+)/review_usability/$', views.add_usability, name='review_usability'),
-    url(r'^post/(?P<project_id>[0-9]+)/review_content/$', views.add_content, name='review_content'),
+    url(r'^post/(?P<project_id>[0-9]+)/review_design/$', views.rate_design, name='rate_design'),
+    url(r'^post/(?P<project_id>[0-9]+)/review_usability/$', views.rate_usability, name='rate_usability'),
+    url(r'^post/(?P<project_id>[0-9]+)/review_content/$', views.rate_content, name='rate_content'),
 
 ]
 
