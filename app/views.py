@@ -106,9 +106,9 @@ def upload_project(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request, user_id):
-    """
-    Function that enables one to see their profile
-    """
+    '''
+    Function that enables users see their profile
+    '''
     form=DesignForm()
     title = "Profile"
     projects = Project.get_project_by_id(id= user_id).order_by('-posted_on')
@@ -221,52 +221,52 @@ class ProfileDescription(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @login_required(login_url='/login')
-def add_usability(request, project_id):
+def rate_usability(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     if request.method == 'POST':
         form = UsabilityForm(request.POST)
         if form.is_valid():
-            rate = form.save(commit=False)
-            rate.project = project
-            rate.user_name = request.user
-            rate.profile = request.user.profile
+            vote = form.save(commit=False)
+            vote.project = project
+            vote.user_name = request.user
+            vote.profile = request.user.profile
 
-            rate.save()
+            vote.save()
         return redirect('index')
 
     return render(request, 'index.html')
 
 @login_required(login_url='/login')
-def add_design(request, project_id):
+def rate_design(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     if request.method == 'POST':
         form = DesignForm(request.POST)
         if form.is_valid():
-            rate = form.save(commit=False)
-            rate.project = project
-            rate.user_name = request.user
-            rate.profile = request.user.profile
+            vote = form.save(commit=False)
+            vote.project = project
+            vote.user_name = request.user
+            vote.profile = request.user.profile
 
-            rate.save()
+            vote.save()
         return redirect('index')
     else:
         form = DesignForm()
 
-    return render(request, 'index.html',{'form': form})
+    return render(request, 'index.html',locals())
 
 
 @login_required(login_url='/login')
-def add_content(request, project_id):
+def rate_content(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     if request.method == 'POST':
         form = ContentForm(request.POST)
         if form.is_valid():
-            rate = form.save(commit=False)
-            rate.project = project
-            rate.user_name = request.user
-            rate.profile = request.user.profile
+            vote = form.save(commit=False)
+            vote.project = project
+            vote.user_name = request.user
+            vote.profile = request.user.profile
 
-            rate.save()
+            vote.save()
         return redirect('index')
 
     return render(request, 'index.html')
