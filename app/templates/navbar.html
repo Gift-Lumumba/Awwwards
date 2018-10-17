@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-    crossorigin="anonymous">
+crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
@@ -9,40 +9,40 @@
     <a href="{% url 'update_profile' %}">Edit Profile &nbsp;<i class="fas fa-user-edit"></i></a>
     <a href="{% url 'upload_project' %}">Add Project&nbsp;<i class="fas fa-plus"></i></a>
     <a href="" data-toggle="modal" data-target="#myModal">Accounts&nbsp;<i class="fas fa-user-cog"></i></a>
-
+    
     <!-- Modal -->
     <div class="modal fade" style="padding-top: 250px;" id="myModal" role="dialog">
-      <div class="modal-dialog modal-sm">
-      
-        <!-- Modal content-->
-        <div class="modal-content">
-        
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        
-            <li class="list-group-item text-center"><a style="color:black;"  href="/accounts/password/change">Change Password</a></li>
-            <hr>
-          
-            <li class="list-group-item text-center"><a style="color:black;" href="/logout/">Log Out</a></li>
-         
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          </div>
+        <div class="modal-dialog modal-sm">
+            
+            <!-- Modal content-->
+            <div class="modal-content">
+                
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+                <li class="list-group-item text-center"><a style="color:black;"  href="/accounts/password/change">Change Password</a></li>
+                <hr>
+                
+                <li class="list-group-item text-center"><a style="color:black;" href="/logout/">Log Out</a></li>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            
         </div>
-        
-      </div>
     </div>
     <form class="navbar-form search" role="search" action="{% url 'search_results' %}" style="padding-right:50px !important;">
-
+        
         <div class="input-group" style="width:170px;">
             <input type="text" class="form-control" id="search" placeholder=" &#xF002; search project by title" name="project">
         </div>
-
+        
     </form>
     <a href="/user/{{user.id}}" style="float:right !important;font-size: 17px;"><i class="fas fa-user"></i>&nbsp;&nbsp;{{user.username}}</a>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
         <i class="fa fa-bars"></i>
     </a>
-
+    
 </div>
 
 <style>
@@ -52,7 +52,7 @@
         overflow: hidden;
         font-family: 'Lato', sans-serif;
     }
-
+    
     /* Style the links inside the navigation bar */
     .topnav a {
         float: left;
@@ -63,31 +63,31 @@
         text-decoration: none;
         font-size: 17px;
     }
-
+    
     /* Change the color of links on hover */
     .topnav a:hover {
         background-color: rgb(69, 182, 69);
         color: black;
     }
-
+    
     /* Add an active class to highlight the current page */
     .active {
         background-color: #4CAF50;
         color: white;
     }
-
+    
     /* Hide the link that should open and close the topnav on small screens */
     .topnav .icon {
         display: none;
     }
-
+    
     .search {
         float: right !important;
     }
     #search{
-    font-family:FontAwesome !important;
-}
-::placeholder{
-    font-size: 15px;
-}
+        font-family:FontAwesome !important;
+    }
+    ::placeholder{
+        font-size: 15px;
+    }
 </style>

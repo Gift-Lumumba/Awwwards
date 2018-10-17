@@ -91,39 +91,42 @@
                     <br>
                     <br>
                     <h4 style="color: whitesmoke;text-decoration-line: underline;">Project Rating Criteria</h4>
-                    <h5>{{ project.rating.count }} <h5 style="color: green;">a)Design</h5>  average = {{ project.average_design | floatformat }} </h5>
-      
-                    <h5>{{ project.rating.count }} <h5 style="color: green;">b)Usability</h5> average = {{ project.average_usability | floatformat }} </h5>
-        
-                    <h5>{{ project.rating.count }} <h5 style="color: green;">c)Content</h5>  average = {{ project.average_content | floatformat }}</h5>
-                             <br><br>
-      
-                             <div class="col-xs-3 col-sm-6 col-md-4 col-lg-4">
-                                <h4>Rate By Design</h4>
-            
-            
-            
-                          <form  action="{%url 'add_design' project_id=project.id %}" method="POST">
-                {%csrf_token%}
-                {% bootstrap_form form layout='inline' %}
-                <input type="submit" class="btn-md btn btn-success" style="width:50% !important;" value="Rate">
-              </form>
-              <br>
-                        <h4>Rate By Content</h4>
-              <form  action="{%url 'review_content' project_id=project.id %}" method="POST" style="width:100%;">
-                {%csrf_token%}
-                {% bootstrap_form form layout='inline' %}
-                <input type="submit" class="btn-md btn btn-success" style="width:50% !important;" value="Rate">
-              </form>
-              <br>
-                         <h4>Rate By Usability</h4>
-                          <form  action="{%url 'review_usability' project_id=project.id %}" method="POST">
-                {%csrf_token%}
-                {% bootstrap_form form layout='inline' %}
-                <input type="submit" class="btn-md btn btn-success" style="width:50% !important;" value="Rate">
-              </form>
-            
-            
+                    <h5>{{ project.rating.count }} <h5 style="color: green;">a)Design</h5> average = {{
+                      project.average_design | floatformat }} </h5>
+
+                    <h5>{{ project.rating.count }} <h5 style="color: green;">b)Usability</h5> average = {{
+                      project.average_usability | floatformat }} </h5>
+
+                    <h5>{{ project.rating.count }} <h5 style="color: green;">c)Content</h5> average = {{
+                      project.average_content | floatformat }}</h5>
+                    <br><br>
+
+                    <div class="col-xs-3 col-sm-6 col-md-4 col-lg-4">
+                      <h5>a)Rate By Design</h5>
+
+
+
+                      <form action="{%url 'rate_design' project_id=project.id %}" method="POST">
+                        {%csrf_token%}
+                        {% bootstrap_form form layout='inline' %}
+                        <input type="submit" class="btn-md btn btn-success" style="width:50% !important;" value="Rate">
+                      </form>
+                      <br>
+                      <h5>b)Rate By Content</h5>
+                      <form action="{%url 'rate_content' project_id=project.id %}" method="POST" style="width:100%;">
+                        {%csrf_token%}
+                        {% bootstrap_form form layout='inline' %}
+                        <input type="submit" class="btn-md btn btn-success" style="width:50% !important;" value="Rate">
+                      </form>
+                      <br>
+                      <h5>c)Rate By Usability</h5>
+                      <form action="{%url 'rate_usability' project_id=project.id %}" method="POST">
+                        {%csrf_token%}
+                        {% bootstrap_form form layout='inline' %}
+                        <input type="submit" class="btn-md btn btn-success" style="width:50% !important;" value="Rate">
+                      </form>
+
+
                     </div>
 
                   </div>
